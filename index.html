@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Herramientas de fibra y metrados · CAD &amp; GIS</title>
+<meta name="description" content="20 rutinas AutoLISP para AutoCAD / Civil 3D que te ahorran horas de clics, calculadora y sufrimiento.">
+<meta property="og:title" content="Herramientas de fibra y metrados · CAD &amp; GIS">
+<meta property="og:description" content="20 rutinas AutoLISP para AutoCAD / Civil 3D que te ahorran horas de clics, calculadora y sufrimiento.">
+<meta property="og:image" content="https://restevesh-sys.github.io/herramientas-fibra-metrados/assets/img/og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f2340'/%3E%3Cpath d='M5 22h9v-8h9' fill='none' stroke='%235ec8ff' stroke-width='3'/%3E%3Crect x='20' y='11' width='7' height='7' fill='%23ffb347'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f2340;--navy2:#1b3a66;--crema:#f6f1e4;--papel:#fffdf7;--tinta:#1d2533;--gris:#5b6576;
+--ambar:#ffb347;--cian:#5ec8ff;--linea:#e2d9c3;--mono:"JetBrains Mono",Consolas,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--crema);color:var(--tinta);font:16px/1.55 "Open Sans",Arial,sans-serif}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+/* ---- portada ---- */
+header{background:var(--navy) url(assets/img/fondo-portada.svg) right center/cover no-repeat;color:#fff}
+header .wrap{padding:28px 16px 56px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:22px;letter-spacing:.5px;text-decoration:none}
+.logo small{font-weight:600;font-size:13px;color:var(--ambar);margin-left:8px;letter-spacing:2px;text-transform:uppercase}
+nav .gh{font-size:14px;font-weight:600;text-decoration:none;border:1px solid #ffffff55;padding:6px 12px;border-radius:6px}
+nav .gh:hover{background:#ffffff18}
+.hero{max-width:640px;margin-top:64px}
+.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.05;margin:0 0 16px;font-weight:800}
+.hero p{font-size:18px;color:#c9d6ea;margin:0 0 28px}
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.stat{background:#ffffff12;border:1px solid #ffffff2a;border-radius:8px;padding:10px 16px}
+.stat b{display:block;font:700 22px var(--mono);color:var(--ambar)}
+.stat span{font-size:13px;color:#c9d6ea}
+/* ---- filtros ---- */
+.tools{position:sticky;top:0;z-index:5;background:var(--crema);border-bottom:1px solid var(--linea)}
+.tools .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 16px}
+.f{font:600 14px "Open Sans",sans-serif;border:1px solid var(--linea);background:var(--papel);color:var(--tinta);
+padding:7px 12px;border-radius:999px;cursor:pointer}
+.f span{font-family:var(--mono);font-size:12px;color:var(--gris);margin-left:4px}
+.f.on{background:var(--c,var(--navy));border-color:var(--c,var(--navy));color:#fff}
+.f.on span{color:#ffffffcc}
+#q{margin-left:auto;min-width:220px;flex:0 1 280px;font:15px "Open Sans",sans-serif;padding:9px 12px;border:1px solid var(--linea);
+border-radius:8px;background:var(--papel)}
+#q:focus,.f:focus-visible,.btn:focus-visible{outline:3px solid var(--cian);outline-offset:2px}
+/* ---- tarjetas ---- */
+main{padding:32px 0 56px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+.card{background:var(--papel);border:1px solid var(--linea);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;
+transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 28px #0f234022}
+.shot{position:relative;display:block;background:var(--navy);aspect-ratio:8/5}
+.shot img{display:block;width:100%;height:100%}
+.num{font:700 12px var(--mono);color:var(--navy);background:var(--ambar);padding:2px 7px;border-radius:4px}
+.body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:700;color:#fff;background:var(--c);padding:2px 9px;border-radius:999px}
+.meta code{font:700 13px var(--mono);color:var(--navy2)}
+.card h3{margin:10px 0 6px;font-size:19px;line-height:1.25}
+.card p{margin:0 0 10px;color:#3b4456;font-size:15px}
+.card .uso{font-size:14px;color:var(--gris);background:#f3ecdb;border-left:3px solid var(--ambar);padding:6px 10px;border-radius:0 6px 6px 0}
+.btn{margin-top:auto;align-self:flex-start;max-width:100%;overflow-wrap:anywhere;text-decoration:none;font-weight:700;font-size:14px;background:var(--navy);color:#fff;
+padding:9px 14px;border-radius:7px}
+.btn:hover{background:var(--navy2)}
+.vacio{display:none;text-align:center;color:var(--gris);padding:40px 0}
+/* ---- instalación ---- */
+.install{background:var(--navy);color:#e9eef6;border-radius:14px;padding:28px;margin-top:48px}
+.install h2{margin:0 0 6px;font-size:26px}
+.install>p{color:#b9c8de;margin:0 0 18px}
+.pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;counter-reset:p;margin:0;padding:0;list-style:none}
+.pasos li{background:#ffffff0d;border:1px solid #ffffff22;border-radius:10px;padding:16px 16px 16px 56px;position:relative}
+.pasos li::before{counter-increment:p;content:counter(p);position:absolute;left:16px;top:14px;width:28px;height:28px;border-radius:50%;
+background:var(--ambar);color:var(--navy);font:700 15px/28px var(--mono);text-align:center}
+.pasos code{font-family:var(--mono);color:var(--cian)}
+footer{border-top:1px solid var(--linea);padding:24px 0 40px;color:var(--gris);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:640px){.tools{position:static}#q{margin-left:0;flex:1 1 100%}.hero{margin-top:40px}}
+/* ---- visor de codigo ---- */
+.acciones{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.acciones .btn{margin-top:0}
+button.btn{font:inherit;font-weight:700;font-size:14px;line-height:inherit;cursor:pointer}
+.btn.sec{background:transparent;color:var(--navy);border:1.5px solid var(--navy)}
+.btn.sec:hover{background:#0f234012}
+.visor{border:0;padding:0;border-radius:12px;width:min(960px,calc(100vw - 32px));max-height:calc(100vh - 32px);background:var(--papel);color:var(--tinta);box-shadow:0 20px 60px #0f234055}
+.visor::backdrop{background:#0f2340aa}
+.visor .cab{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--navy);color:#fff;padding:12px 16px}
+.visor .cab b{font:700 15px var(--mono);overflow-wrap:anywhere}
+.visor .cab .acciones{margin:0}
+.visor .cab .btn{background:#ffffff1a;border:1px solid #ffffff55;color:#fff}
+.visor .cab .btn:hover{background:#ffffff30}
+.visor pre{margin:0;padding:16px;max-height:calc(100vh - 140px);overflow:auto;font:13px/1.5 var(--mono);white-space:pre;tab-size:2;background:#fbf8ef}
+.visor .aviso{padding:24px 16px;color:var(--gris)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="./">CAD &amp; GIS<small>Recursos gratuitos</small></a>
+      <a class="gh" href="https://github.com/restevesh-sys/herramientas-fibra-metrados" target="_blank" rel="noopener">★ Ver en GitHub</a>
+    </nav>
+    <div class="hero">
+      <h1>Herramientas de fibra y metrados</h1>
+      <p>20 rutinas AutoLISP para AutoCAD / Civil 3D que te ahorran horas de clics, calculadora y sufrimiento.</p>
+      <div class="stats">
+        <div class="stat"><b>20</b><span>herramientas</span></div>
+        <div class="stat"><b>6</b><span>categorías</span></div>
+        <div class="stat"><b>2022</b><span>AutoCAD / Civil 3D</span></div>
+        <div class="stat"><b>$0</b><span>sin cuentas ni anuncios</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="tools">
+  <div class="wrap" role="toolbar" aria-label="Filtrar herramientas">
+    <button class="f on" data-f="*">Todas <span>20</span></button><button class="f" data-f="Metrado" style="--c:#2f6fd6">Metrado <span>4</span></button><button class="f" data-f="Polígonos" style="--c:#7a4fd1">Polígonos <span>3</span></button><button class="f" data-f="Fibra" style="--c:#0e87b8">Fibra <span>3</span></button><button class="f" data-f="Acometidas" style="--c:#c76a12">Acometidas <span>4</span></button><button class="f" data-f="Dibujo" style="--c:#b2453a">Dibujo <span>4</span></button><button class="f" data-f="Datos" style="--c:#3d5a80">Datos <span>2</span></button>
+    <input id="q" type="search" placeholder="Buscar comando o tarea…" aria-label="Buscar herramienta">
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <section class="grid" id="grid">
+    <article class="card" data-cat="Metrado" data-q="metrafibra metrado de fibra por capa suma longitudes de líneas, polilíneas y arcos agrupadas por capa y arma la tabla de metrado con su total. adiós calculadora. metrado">
+      <a class="shot" href="assets/img/metrafibra.svg" target="_blank" rel="noopener" aria-label="Ver imagen de METRAFIBRA">
+        <img src="assets/img/metrafibra.svg" alt="Ilustración de METRAFIBRA: Metrado de fibra por capa" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">01</span><span class="chip" style="--c:#2f6fd6">Metrado</span><code>METRAFIBRA</code></div>
+        <h3>Metrado de fibra por capa</h3>
+        <p>Suma longitudes de líneas, polilíneas y arcos agrupadas por capa y arma la tabla de metrado con su total. Adiós calculadora.</p>
+        <p class="uso"><b>Uso:</b> Escribe METRAFIBRA, selecciona la red y da el punto de la tabla.</p>
+        <a class="btn" href="lisp/METRAFIBRA.lsp" download>Descargar METRAFIBRA.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Metrado" data-q="metrapol metrado dentro de un polígono mide solo lo que cae dentro del polígono límite (zona, área de servicio, frente de trabajo). lo de afuera ni lo pela. metrado">
+      <a class="shot" href="assets/img/metrapol.svg" target="_blank" rel="noopener" aria-label="Ver imagen de METRAPOL">
+        <img src="assets/img/metrapol.svg" alt="Ilustración de METRAPOL: Metrado dentro de un polígono" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">02</span><span class="chip" style="--c:#2f6fd6">Metrado</span><code>METRAPOL</code></div>
+        <h3>Metrado dentro de un polígono</h3>
+        <p>Mide solo lo que cae dentro del polígono límite (zona, área de servicio, frente de trabajo). Lo de afuera ni lo pela.</p>
+        <p class="uso"><b>Uso:</b> Escribe METRAPOL, elige el polígono y revisa el total por capa.</p>
+        <a class="btn" href="lisp/METRAPOL.lsp" download>Descargar METRAPOL.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Metrado" data-q="metrado_general_radial metrado general de radiales cuenta y suma todos los radiales que salen de cada registro y te da el resumen general en una sola corrida. metrado">
+      <a class="shot" href="assets/img/metrado_radial.svg" target="_blank" rel="noopener" aria-label="Ver imagen de METRADO_GENERAL_RADIAL">
+        <img src="assets/img/metrado_radial.svg" alt="Ilustración de METRADO_GENERAL_RADIAL: Metrado general de radiales" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">03</span><span class="chip" style="--c:#2f6fd6">Metrado</span><code>METRADO_GENERAL_RADIAL</code></div>
+        <h3>Metrado general de radiales</h3>
+        <p>Cuenta y suma todos los radiales que salen de cada registro y te da el resumen general en una sola corrida.</p>
+        <p class="uso"><b>Uso:</b> Escribe METRADO_GENERAL_RADIAL y selecciona la zona con radiales.</p>
+        <a class="btn" href="lisp/METRADO_GENERAL_RADIAL.lsp" download>Descargar METRADO_GENERAL_RADIAL.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Metrado" data-q="tabla_blocks conteo de bloques con vista tabla de conteo con la vista del bloque, agrupada por capa (que sí se entiende) en lugar del nombre críptico del bloque. metrado">
+      <a class="shot" href="assets/img/tabla_blocks.svg" target="_blank" rel="noopener" aria-label="Ver imagen de TABLA_BLOCKS">
+        <img src="assets/img/tabla_blocks.svg" alt="Ilustración de TABLA_BLOCKS: Conteo de bloques con vista" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">04</span><span class="chip" style="--c:#2f6fd6">Metrado</span><code>TABLA_BLOCKS</code></div>
+        <h3>Conteo de bloques con vista</h3>
+        <p>Tabla de conteo con la vista del bloque, agrupada por CAPA (que sí se entiende) en lugar del nombre críptico del bloque.</p>
+        <p class="uso"><b>Uso:</b> Escribe TABLA_BLOCKS, selecciona y coloca la tabla.</p>
+        <a class="btn" href="lisp/TABLA_BLOCKS.lsp" download>Descargar TABLA_BLOCKS.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Polígonos" data-q="cortapol cortar en el límite del polígono parte líneas, polilíneas y círculos exactamente donde cruzan el polígono, para metrar cada zona por separado. polígonos">
+      <a class="shot" href="assets/img/cortapol.svg" target="_blank" rel="noopener" aria-label="Ver imagen de CORTAPOL">
+        <img src="assets/img/cortapol.svg" alt="Ilustración de CORTAPOL: Cortar en el límite del polígono" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">05</span><span class="chip" style="--c:#7a4fd1">Polígonos</span><code>CORTAPOL</code></div>
+        <h3>Cortar en el límite del polígono</h3>
+        <p>Parte líneas, polilíneas y círculos exactamente donde cruzan el polígono, para metrar cada zona por separado.</p>
+        <p class="uso"><b>Uso:</b> Escribe CORTAPOL, elige el polígono y los objetos a cortar.</p>
+        <a class="btn" href="lisp/POLIGONO_HERRAMIENTAS.lsp" download>Descargar POLIGONO_HERRAMIENTAS.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Polígonos" data-q="selpol seleccionar todo lo de adentro selecciona todo lo que está dentro de un polígono existente. sin ventanas a mano ni clics de más. polígonos">
+      <a class="shot" href="assets/img/selpol.svg" target="_blank" rel="noopener" aria-label="Ver imagen de SELPOL">
+        <img src="assets/img/selpol.svg" alt="Ilustración de SELPOL: Seleccionar todo lo de adentro" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">06</span><span class="chip" style="--c:#7a4fd1">Polígonos</span><code>SELPOL</code></div>
+        <h3>Seleccionar todo lo de adentro</h3>
+        <p>Selecciona todo lo que está dentro de un polígono existente. Sin ventanas a mano ni clics de más.</p>
+        <p class="uso"><b>Uso:</b> Escribe SELPOL y elige el polígono; la selección queda activa.</p>
+        <a class="btn" href="lisp/POLIGONO_HERRAMIENTAS.lsp" download>Descargar POLIGONO_HERRAMIENTAS.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Polígonos" data-q="recortapol recortar fuera del límite recorta lo que sobresale del polígono y deja solo tu zona. incluye selecpol y selecpoltodo. polígonos">
+      <a class="shot" href="assets/img/recortapol.svg" target="_blank" rel="noopener" aria-label="Ver imagen de RECORTAPOL">
+        <img src="assets/img/recortapol.svg" alt="Ilustración de RECORTAPOL: Recortar fuera del límite" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">07</span><span class="chip" style="--c:#7a4fd1">Polígonos</span><code>RECORTAPOL</code></div>
+        <h3>Recortar fuera del límite</h3>
+        <p>Recorta lo que sobresale del polígono y deja solo tu zona. Incluye SELECPOL y SELECPOLTODO.</p>
+        <p class="uso"><b>Uso:</b> Escribe RECORTAPOL y elige el polígono límite.</p>
+        <a class="btn" href="lisp/RECORTA_POL.lsp" download>Descargar RECORTA_POL.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Fibra" data-q="nomfibra nomenclatura f1 / f2 / f3 nombra la continuidad f1 y las derivadas f2, f3… de la fibra de 24 hilos siguiendo la ruta y los cierres. fibra">
+      <a class="shot" href="assets/img/nomfibra.svg" target="_blank" rel="noopener" aria-label="Ver imagen de NOMFIBRA">
+        <img src="assets/img/nomfibra.svg" alt="Ilustración de NOMFIBRA: Nomenclatura F1 / F2 / F3" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">08</span><span class="chip" style="--c:#0e87b8">Fibra</span><code>NOMFIBRA</code></div>
+        <h3>Nomenclatura F1 / F2 / F3</h3>
+        <p>Nombra la continuidad F1 y las derivadas F2, F3… de la fibra de 24 hilos siguiendo la ruta y los cierres.</p>
+        <p class="uso"><b>Uso:</b> Escribe NOMFIBRA y sigue el diálogo paso a paso.</p>
+        <a class="btn" href="lisp/NOMFIBRA.lsp" download>Descargar NOMFIBRA.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Fibra" data-q="radiografia radiografía de la caja de 8 salidas vuelca a un txt lo que hay dentro y alrededor de la caja (salidas f1/f2, acometidas, capas) en coordenadas locales del bloque. fibra">
+      <a class="shot" href="assets/img/radiografia.svg" target="_blank" rel="noopener" aria-label="Ver imagen de RADIOGRAFIA">
+        <img src="assets/img/radiografia.svg" alt="Ilustración de RADIOGRAFIA: Radiografía de la caja de 8 salidas" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">09</span><span class="chip" style="--c:#0e87b8">Fibra</span><code>RADIOGRAFIA</code></div>
+        <h3>Radiografía de la caja de 8 salidas</h3>
+        <p>Vuelca a un TXT lo que hay dentro y alrededor de la caja (salidas F1/F2, acometidas, capas) en coordenadas locales del bloque.</p>
+        <p class="uso"><b>Uso:</b> Escribe RADIOGRAFIA, elige una caja y abre el TXT generado.</p>
+        <a class="btn" href="lisp/RADIOGRAFIA.lsp" download>Descargar RADIOGRAFIA.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Fibra" data-q="renombra_nomenclatura renombrar nomenclaturas en serie busca un patrón (buscapat) y cambia segmentos en serie (renseq), p. ej. a01 → r13, sin romper la estructura del nombre. fibra">
+      <a class="shot" href="assets/img/renombra.svg" target="_blank" rel="noopener" aria-label="Ver imagen de RENOMBRA_NOMENCLATURA">
+        <img src="assets/img/renombra.svg" alt="Ilustración de RENOMBRA_NOMENCLATURA: Renombrar nomenclaturas en serie" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">10</span><span class="chip" style="--c:#0e87b8">Fibra</span><code>RENOMBRA_NOMENCLATURA</code></div>
+        <h3>Renombrar nomenclaturas en serie</h3>
+        <p>Busca un patrón (BUSCAPAT) y cambia segmentos en serie (RENSEQ), p. ej. A01 → R13, sin romper la estructura del nombre.</p>
+        <p class="uso"><b>Uso:</b> Escribe BUSCAPAT o RENSEQ e indica el texto a buscar y el nuevo.</p>
+        <a class="btn" href="lisp/RENOMBRA_NOMENCLATURA.lsp" download>Descargar RENOMBRA_NOMENCLATURA.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Acometidas" data-q="acom_registro acometidas en abanico desde el registro traza las acometidas del registro a cada lote, con flecha en bloque y número consecutivo para contabilizarlas. acometidas">
+      <a class="shot" href="assets/img/acom_registro.svg" target="_blank" rel="noopener" aria-label="Ver imagen de ACOM_REGISTRO">
+        <img src="assets/img/acom_registro.svg" alt="Ilustración de ACOM_REGISTRO: Acometidas en abanico desde el registro" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">11</span><span class="chip" style="--c:#c76a12">Acometidas</span><code>ACOM_REGISTRO</code></div>
+        <h3>Acometidas en abanico desde el registro</h3>
+        <p>Traza las acometidas del registro a cada lote, con flecha en bloque y número consecutivo para contabilizarlas.</p>
+        <p class="uso"><b>Uso:</b> Escribe ACOM_REGISTRO, da el registro y señala los lotes.</p>
+        <a class="btn" href="lisp/ACOM_REGISTRO.lsp" download>Descargar ACOM_REGISTRO.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Acometidas" data-q="acom_registro_curva acometidas sobre calle curva la misma idea del abanico, pero respetando calles curvas y lotes girados. las glorietas ya no dan miedo. acometidas">
+      <a class="shot" href="assets/img/acom_curva.svg" target="_blank" rel="noopener" aria-label="Ver imagen de ACOM_REGISTRO_CURVA">
+        <img src="assets/img/acom_curva.svg" alt="Ilustración de ACOM_REGISTRO_CURVA: Acometidas sobre calle curva" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">12</span><span class="chip" style="--c:#c76a12">Acometidas</span><code>ACOM_REGISTRO_CURVA</code></div>
+        <h3>Acometidas sobre calle curva</h3>
+        <p>La misma idea del abanico, pero respetando calles curvas y lotes girados. Las glorietas ya no dan miedo.</p>
+        <p class="uso"><b>Uso:</b> Escribe ACOM_REGISTRO_CURVA y sigue las indicaciones.</p>
+        <a class="btn" href="lisp/ACOM_REGISTRO_CURVA.lsp" download>Descargar ACOM_REGISTRO_CURVA.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Acometidas" data-q="acom_manzana acometidas por manzana completa coloca y numera las acometidas de toda una manzana de un jalón, por ambos frentes. acometidas">
+      <a class="shot" href="assets/img/acom_manzana.svg" target="_blank" rel="noopener" aria-label="Ver imagen de ACOM_MANZANA">
+        <img src="assets/img/acom_manzana.svg" alt="Ilustración de ACOM_MANZANA: Acometidas por manzana completa" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">13</span><span class="chip" style="--c:#c76a12">Acometidas</span><code>ACOM_MANZANA</code></div>
+        <h3>Acometidas por manzana completa</h3>
+        <p>Coloca y numera las acometidas de toda una manzana de un jalón, por ambos frentes.</p>
+        <p class="uso"><b>Uso:</b> Escribe ACOM_MANZANA y selecciona la manzana.</p>
+        <a class="btn" href="lisp/ACOM_MANZANA.lsp" download>Descargar ACOM_MANZANA.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Acometidas" data-q="radial_flex radiales con curva flexible dibuja radiales curvos (tipo flexoducto) desde un registro hacia sus destinos, sin cruzarse a lo loco. acometidas">
+      <a class="shot" href="assets/img/radial_flex.svg" target="_blank" rel="noopener" aria-label="Ver imagen de RADIAL_FLEX">
+        <img src="assets/img/radial_flex.svg" alt="Ilustración de RADIAL_FLEX: Radiales con curva flexible" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">14</span><span class="chip" style="--c:#c76a12">Acometidas</span><code>RADIAL_FLEX</code></div>
+        <h3>Radiales con curva flexible</h3>
+        <p>Dibuja radiales curvos (tipo flexoducto) desde un registro hacia sus destinos, sin cruzarse a lo loco.</p>
+        <p class="uso"><b>Uso:</b> Escribe RADIAL_FLEX, da el origen y los puntos destino.</p>
+        <a class="btn" href="lisp/RADIAL_FLEX.lsp" download>Descargar RADIAL_FLEX.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Dibujo" data-q="unigap unir tramos y marcar separaciones une tramos por cercanía de extremos, simplifica, rotula la longitud en metros y pone un bloque en cada hueco y extremo libre. dibujo">
+      <a class="shot" href="assets/img/unigap.svg" target="_blank" rel="noopener" aria-label="Ver imagen de UNIGAP">
+        <img src="assets/img/unigap.svg" alt="Ilustración de UNIGAP: Unir tramos y marcar separaciones" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">15</span><span class="chip" style="--c:#b2453a">Dibujo</span><code>UNIGAP</code></div>
+        <h3>Unir tramos y marcar separaciones</h3>
+        <p>Une tramos por cercanía de extremos, simplifica, rotula la longitud en metros y pone un bloque en cada hueco y extremo libre.</p>
+        <p class="uso"><b>Uso:</b> Escribe UNIGAP, selecciona los tramos y revisa las etiquetas.</p>
+        <a class="btn" href="lisp/UNIGAP.lsp" download>Descargar UNIGAP.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Dibujo" data-q="uniarco muchos cuadritos → un solo arco reemplaza piezas sueltas a lo largo de una curva por un solo arco que sí se puede acotar. dibujo">
+      <a class="shot" href="assets/img/uniarco.svg" target="_blank" rel="noopener" aria-label="Ver imagen de UNIARCO">
+        <img src="assets/img/uniarco.svg" alt="Ilustración de UNIARCO: Muchos cuadritos → un solo arco" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">16</span><span class="chip" style="--c:#b2453a">Dibujo</span><code>UNIARCO</code></div>
+        <h3>Muchos cuadritos → un solo arco</h3>
+        <p>Reemplaza piezas sueltas a lo largo de una curva por un solo arco que sí se puede acotar.</p>
+        <p class="uso"><b>Uso:</b> Escribe UNIARCO y selecciona las piezas de la curva.</p>
+        <a class="btn" href="lisp/UNIARCO.lsp" download>Descargar UNIARCO.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Dibujo" data-q="unipol unir en una sola polilínea junta recta + tramo ondulado (o lo que esté pegado) en una sola polilínea para anotar una sola distancia. dibujo">
+      <a class="shot" href="assets/img/unipol.svg" target="_blank" rel="noopener" aria-label="Ver imagen de UNIPOL">
+        <img src="assets/img/unipol.svg" alt="Ilustración de UNIPOL: Unir en una sola polilínea" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">17</span><span class="chip" style="--c:#b2453a">Dibujo</span><code>UNIPOL</code></div>
+        <h3>Unir en una sola polilínea</h3>
+        <p>Junta recta + tramo ondulado (o lo que esté pegado) en una sola polilínea para anotar una sola distancia.</p>
+        <p class="uso"><b>Uso:</b> Escribe UNIPOL y selecciona las entidades a unir.</p>
+        <a class="btn" href="lisp/UNIPOL.lsp" download>Descargar UNIPOL.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Dibujo" data-q="numera numerar edificios, lotes y dptos. numeración consecutiva o nota fija (cn-20) con bloques; numtabla arma el resumen de conteo. no crea capas nuevas. dibujo">
+      <a class="shot" href="assets/img/numera.svg" target="_blank" rel="noopener" aria-label="Ver imagen de NUMERA">
+        <img src="assets/img/numera.svg" alt="Ilustración de NUMERA: Numerar edificios, lotes y dptos." loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">18</span><span class="chip" style="--c:#b2453a">Dibujo</span><code>NUMERA</code></div>
+        <h3>Numerar edificios, lotes y dptos.</h3>
+        <p>Numeración consecutiva o nota fija (CN-20) con bloques; NUMTABLA arma el resumen de conteo. No crea capas nuevas.</p>
+        <p class="uso"><b>Uso:</b> Escribe NUMERA para numerar y NUMTABLA para la tabla.</p>
+        <a class="btn" href="lisp/NUMERA.lsp" download>Descargar NUMERA.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Datos" data-q="txtxy lista de textos con coordenadas saca x, y y el contenido de los textos seleccionados en columnas, listo para excel, csv o google earth. datos">
+      <a class="shot" href="assets/img/txtxy.svg" target="_blank" rel="noopener" aria-label="Ver imagen de TXTXY">
+        <img src="assets/img/txtxy.svg" alt="Ilustración de TXTXY: Lista de textos con coordenadas" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">19</span><span class="chip" style="--c:#3d5a80">Datos</span><code>TXTXY</code></div>
+        <h3>Lista de textos con coordenadas</h3>
+        <p>Saca X, Y y el contenido de los textos seleccionados en columnas, listo para Excel, CSV o Google Earth.</p>
+        <p class="uso"><b>Uso:</b> Escribe TXTXY, selecciona los textos y copia el resultado.</p>
+        <a class="btn" href="lisp/TXTXY.lsp" download>Descargar TXTXY.lsp</a>
+      </div>
+    </article>
+    <article class="card" data-cat="Datos" data-q="registro_2d / 3d registro prefabricado 60×40×60 dibuja el registro de concreto en planta 2d o en sólido 3d con medidas reales, para planos y fichas técnicas. datos">
+      <a class="shot" href="assets/img/registro.svg" target="_blank" rel="noopener" aria-label="Ver imagen de REGISTRO_2D / 3D">
+        <img src="assets/img/registro.svg" alt="Ilustración de REGISTRO_2D / 3D: Registro prefabricado 60×40×60" loading="lazy" width="400" height="250">
+      </a>
+      <div class="body">
+        <div class="meta"><span class="num">20</span><span class="chip" style="--c:#3d5a80">Datos</span><code>REGISTRO_2D / 3D</code></div>
+        <h3>Registro prefabricado 60×40×60</h3>
+        <p>Dibuja el registro de concreto en planta 2D o en sólido 3D con medidas reales, para planos y fichas técnicas.</p>
+        <p class="uso"><b>Uso:</b> Escribe REGISTRO_2D o REGISTRO_3D y da el punto de inserción.</p>
+        <a class="btn" href="lisp/REGISTRO.lsp" download>Descargar REGISTRO.lsp</a>
+      </div>
+    </article>
+    </section>
+    <p class="vacio" id="vacio">Nada por aquí. Prueba con otra palabra (ej. “acometida”, “polígono”, “tabla”).</p>
+
+    <section class="install" id="instalar">
+      <h2>Cómo cargarlas en AutoCAD</h2>
+      <p>Dos minutos y quedan para siempre. Probado en AutoCAD / Civil 3D 2022, unidades en metros.</p>
+      <ol class="pasos">
+        <li>Descarga los <code>.lsp</code> que te sirvan y guárdalos juntos en una carpeta (ej. <code>%USERPROFILE%\Documents\LISP</code>).</li>
+        <li>En AutoCAD: <code>OPTIONS</code> → <b>Files</b> → <b>Trusted Locations</b> y agrega esa carpeta (así no te pregunta cada vez).</li>
+        <li>Escribe <code>APPLOAD</code>, entra a <b>Startup Suite → Contents</b> y agrega los archivos para que carguen solos al abrir.</li>
+        <li>Escribe el nombre del comando (ej. <code>METRAFIBRA</code>). Si algo sale mal, <code>U</code> lo deshace de un jalón.</li>
+      </ol>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Hecho con cariño por <b>RestevesH</b> · para quien lo necesite.</span>
+    <span>Úsalas bajo tu propio riesgo: revisa el resultado antes de entregar el plano. 😉</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('.card')), btns=[].slice.call(document.querySelectorAll('.f')),
+      q=document.getElementById('q'), vacio=document.getElementById('vacio'), cat='*';
+  function aplicar(){
+    var t=(q.value||'').trim().toLowerCase(), vis=0;
+    cards.forEach(function(c){
+      var ok=(cat==='*'||c.dataset.cat===cat)&&(!t||c.dataset.q.indexOf(t)>-1);
+      c.style.display=ok?'':'none'; if(ok)vis++;
+    });
+    vacio.style.display=vis?'none':'block';
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.classList.remove('on')}); b.classList.add('on'); cat=b.dataset.f; aplicar();
+  })});
+  q.addEventListener('input',aplicar);
+})();
+</script>
+<dialog class="visor" id="visor" aria-labelledby="visorNom">
+  <div class="cab">
+    <b id="visorNom">archivo.lsp</b>
+    <div class="acciones">
+      <button class="btn" type="button" id="visorCopiar">Copiar</button>
+      <a class="btn" id="visorBajar" href="#" download>Descargar</a>
+      <button class="btn" type="button" id="visorCerrar">Cerrar ✕</button>
+    </div>
+  </div>
+  <pre id="visorTxt"></pre>
+</dialog>
+
+<script>
+(function(){
+  var dlg=document.getElementById('visor'), nom=document.getElementById('visorNom'),
+      txt=document.getElementById('visorTxt'), bajar=document.getElementById('visorBajar'),
+      copiar=document.getElementById('visorCopiar'), cache={};
+  function mostrar(t){txt.className='';txt.textContent=t;copiar.disabled=false;}
+  function aviso(t){txt.className='aviso';txt.textContent=t;copiar.disabled=true;}
+  function abrir(url){
+    var f=url.split('/').pop();
+    nom.textContent=f; bajar.href=url; bajar.setAttribute('download',f);
+    if(cache[url]) mostrar(cache[url]); else {
+      aviso('Cargando '+f+'…');
+      fetch(window.claude?url+'.txt':url).then(function(r){if(!r.ok)throw r.status;return r.text();})
+        .then(function(t){cache[url]=t;mostrar(t);})
+        .catch(function(){aviso(location.protocol==='file:'?'Vista previa no disponible al abrir la página desde tu computadora: el navegador no deja leer archivos locales. En la página publicada en GitHub sí se ve. Mientras, usa Descargar.':'Este archivo todavía no está publicado. Vuelve pronto.');});
+    }
+    if(dlg.showModal) dlg.showModal(); else window.open(url,'_blank');
+  }
+  [].slice.call(document.querySelectorAll('.card .btn[href^="lisp/"]')).forEach(function(b){
+    var caja=document.createElement('div'); caja.className='acciones';
+    b.parentNode.insertBefore(caja,b); caja.appendChild(b);
+    var ver=document.createElement('button'); ver.type='button'; ver.className='btn sec';
+    ver.textContent='Ver código'; ver.addEventListener('click',function(){abrir(b.getAttribute('href'));});
+    caja.appendChild(ver);
+  });
+  copiar.addEventListener('click',function(){
+    var t=txt.textContent;
+    function ok(){copiar.textContent='¡Copiado!';setTimeout(function(){copiar.textContent='Copiar';},1500);}
+    if(navigator.clipboard) navigator.clipboard.writeText(t).then(ok); else {
+      var r=document.createRange(); r.selectNodeContents(txt); var s=getSelection(); s.removeAllRanges(); s.addRange(r);
+      document.execCommand('copy'); s.removeAllRanges(); ok();
+    }
+  });
+  document.getElementById('visorCerrar').addEventListener('click',function(){dlg.close();});
+  dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
+})();
+</script>
+<script>
+/* Descargas dentro de Claude: alli el navegador no permite <a download>,
+   asi que cada .lsp se entrega dentro de un .zip con el permiso "downloads".
+   En GitHub Pages este bloque no hace nada y los enlaces funcionan normal. */
+(function(){
+  if(!window.claude||!window.claude.use) return;
+  function cargarZip(){return new Promise(function(ok,mal){
+    if(window.JSZip) return ok(window.JSZip);
+    var s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+    s.onload=function(){ok(window.JSZip)}; s.onerror=mal; document.head.appendChild(s);
+  });}
+  window.claude.use('downloads').then(function(dl){
+    if(!dl) return;
+    document.addEventListener('click',function(e){
+      var a=e.target.closest&&e.target.closest('a[download]'); if(!a) return;
+      var href=a.getAttribute('href')||''; if(!/\.lsp$/i.test(href)) return;
+      e.preventDefault();
+      var f=href.split('/').pop(), txt=a.textContent;
+      a.textContent='Preparando…';
+      Promise.all([fetch(href+'.txt').then(function(r){if(!r.ok)throw 0;return r.text();}),cargarZip()])
+        .then(function(r){var z=new r[1](); z.file(f,r[0]); return z.generateAsync({type:'blob'});})
+        .then(function(b){return dl.save({filename:f.replace(/\.lsp$/i,'')+'.zip',data:b});})
+        .then(function(){a.textContent='¡Listo!';},function(err){
+          a.textContent=(err&&err.code==='declined')?'Cancelado':'No disponible';})
+        .then(function(){setTimeout(function(){a.textContent=txt;},1800);});
+    });
+  });
+})();
+</script>
+</body>
+</html>

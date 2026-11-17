@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="400" height="250" font-family="Open Sans, DejaVu Sans, Arial, sans-serif">
+<defs>
+ <pattern id="g1" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="#16305a" stroke-width="0.6"/></pattern>
+ <pattern id="g2" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="url(#g1)"/><path d="M50 0H0V50" fill="none" stroke="#1f4176" stroke-width="1"/></pattern>
+ <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffd84d"/></marker>
+</defs>
+<rect width="400" height="250" fill="#0f2340"/>
+<rect width="400" height="250" fill="url(#g2)"/>
+
+<polyline points="30,95 100,95" fill="none" stroke="#ff6b5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4" /><polyline points="100,95 300,95" fill="none" stroke="#5ec8ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" /><polyline points="300,95 370,95" fill="none" stroke="#ff6b5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4" />
+<polyline points="45,160 100,160" fill="none" stroke="#ff6b5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4" /><polyline points="100,160 300,160" fill="none" stroke="#ffb347" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" /><polyline points="300,160 355,160" fill="none" stroke="#ff6b5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4" />
+<polyline points="200,22 200,60" fill="none" stroke="#ff6b5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4" /><polyline points="200,60 200,190" fill="none" stroke="#c9a3ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" /><polyline points="200,190 200,232" fill="none" stroke="#ff6b5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4" />
+<rect x="100" y="60" width="200" height="130" fill="none" stroke="#e9eef6" stroke-width="2" stroke-dasharray="10 5"/>
+<circle cx="100" cy="95" r="6" fill="#0f2340" stroke="#ffd84d" stroke-width="2"/><path d="M97 92L103 98M103 92L97 98" stroke="#ffd84d" stroke-width="1.6"/><circle cx="300" cy="95" r="6" fill="#0f2340" stroke="#ffd84d" stroke-width="2"/><path d="M297 92L303 98M303 92L297 98" stroke="#ffd84d" stroke-width="1.6"/><circle cx="100" cy="160" r="6" fill="#0f2340" stroke="#ffd84d" stroke-width="2"/><path d="M97 157L103 163M103 157L97 163" stroke="#ffd84d" stroke-width="1.6"/><circle cx="300" cy="160" r="6" fill="#0f2340" stroke="#ffd84d" stroke-width="2"/><path d="M297 157L303 163M303 157L297 163" stroke="#ffd84d" stroke-width="1.6"/><circle cx="200" cy="60" r="6" fill="#0f2340" stroke="#ffd84d" stroke-width="2"/><path d="M197 57L203 63M203 57L197 63" stroke="#ffd84d" stroke-width="1.6"/><circle cx="200" cy="190" r="6" fill="#0f2340" stroke="#ffd84d" stroke-width="2"/><path d="M197 187L203 193M203 187L197 193" stroke="#ffd84d" stroke-width="1.6"/>
+<text x="306" y="56" font-size="10" fill="#ffd84d" text-anchor="start" font-weight="400">corte exacto</text><text x="20" y="30" font-size="10" fill="#ff6b5e" text-anchor="start" font-weight="400">fuera: se separa</text>
+<g transform="translate(392,242)"><rect x="-75.2" y="-20" width="75.2" height="20" rx="3" fill="#0f2340" stroke="#ffb347" stroke-width="1"/>
+<text x="-8" y="-6" text-anchor="end" font-family="Consolas, DejaVu Sans Mono, monospace" font-size="12" font-weight="700" fill="#ffb347">CORTAPOL</text></g>
+</svg>

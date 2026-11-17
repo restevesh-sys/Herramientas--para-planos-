@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="400" height="250" font-family="Open Sans, DejaVu Sans, Arial, sans-serif">
+<defs>
+ <pattern id="g1" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="#16305a" stroke-width="0.6"/></pattern>
+ <pattern id="g2" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="url(#g1)"/><path d="M50 0H0V50" fill="none" stroke="#1f4176" stroke-width="1"/></pattern>
+ <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffd84d"/></marker>
+</defs>
+<rect width="400" height="250" fill="#0f2340"/>
+<rect width="400" height="250" fill="url(#g2)"/>
+
+<defs><clipPath id="cp5"><polygon points="90,45 310,60 330,195 110,205"/></clipPath></defs>
+<polyline points="20,90 385,120" fill="none" stroke="#4f6f99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 5" /><polyline points="30,175 380,150" fill="none" stroke="#4f6f99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 5" /><polyline points="150,10 175,245" fill="none" stroke="#4f6f99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 5" />
+<g clip-path="url(#cp5)"><polyline points="20,90 385,120" fill="none" stroke="#5ec8ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" /><polyline points="30,175 380,150" fill="none" stroke="#ffb347" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" /><polyline points="150,10 175,245" fill="none" stroke="#c9a3ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" /></g>
+<polygon points="90,45 310,60 330,195 110,205" fill="none" stroke="#e9eef6" stroke-width="2"/>
+<text x="14" y="28" font-size="10" fill="#ff6b5e" text-anchor="start" font-weight="400">fuera del límite → se recorta</text>
+<rect x="14" y="214" width="78" height="20" rx="3" fill="#5ec8ff"/><text x="53" y="228" font-size="10" fill="#0f2340" text-anchor="middle" font-weight="700">solo tu zona</text>
+<g transform="translate(392,242)"><rect x="-90.0" y="-20" width="90.0" height="20" rx="3" fill="#0f2340" stroke="#ffb347" stroke-width="1"/>
+<text x="-8" y="-6" text-anchor="end" font-family="Consolas, DejaVu Sans Mono, monospace" font-size="12" font-weight="700" fill="#ffb347">RECORTAPOL</text></g>
+</svg>
